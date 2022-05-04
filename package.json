@@ -1,5 +1,10 @@
 {
 
+  "engines":{
+    "node":"18.1.0",
+    "npm":"8.1.2"
+    
+  },
   "scripts":{
     "start": "node index.js"
     "dev":"nodemon index.js"
