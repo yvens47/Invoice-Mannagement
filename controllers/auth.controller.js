@@ -1,11 +1,15 @@
 
+const User = require('../models/user.model')
 
 const login = Model =>(req, res)=>{
 
   const {email, password} = req.body
+  // no empty email and password
+
+
 
   try {
-     res.json({login:"Login Controller"})    
+     res.json({email, password})   ; 
   }
   catch(e){
 
@@ -19,7 +23,16 @@ const login = Model =>(req, res)=>{
 
 const register = Model =>(req, res)=>{
 
-  res.json({login:"Login Controller"})
+  try{
+    
+
+    res.json({login:"register Controller"})
+  }
+  catch(e){
+    console.log(e)
+  }
+
+  
   
 }
 
@@ -40,8 +53,8 @@ const isAuthorized = (req, res)=>{
 
 
 module.exports ={
-  login:login({}),
-  register:register({}),
+  login:login(User),
+  register:register(User),
   isAuthorized,
   forgotPassword:forgotPassword({})
   

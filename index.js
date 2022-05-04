@@ -1,8 +1,12 @@
 const express = require('express');
+
 const app = express();
 const morgan = require('morgan')
 const cors = require('cors');
 const bodyParser = require('body-parser');
+require('dotenv').config();
+const db = require('./utils/db');
+
 
 const AuthRoute = require('./routes/auth')
 console.log(AuthRoute)
@@ -14,6 +18,7 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.use(bodyParser());
 
+db();
 // routes
 app.use("/auth",AuthRoute);
 
