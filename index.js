@@ -14,7 +14,7 @@ app.use(bodyParser());
 // routes
 
 app.get('/', (req, res)=>{
-  res.json({message:"Invoice Management System"});
+  res.json({message:"Invoice Management Systems"});
 })
 
 
