@@ -7,7 +7,6 @@ const login = Model => (req, res) => {
   // no empty email and password
 
 
-
   try {
     res.json({ email, password });
   }
@@ -25,7 +24,7 @@ const register = Model => (req, res) => {
 
   try {
 
-    const user = new Tank(req.body);
+    const user = new Model(req.body);
     user.save(function(err) {
       if (err) {
         console.log(err)
