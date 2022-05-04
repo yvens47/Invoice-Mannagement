@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 function connect(){
 
   const uri = `${process.env.URI}`;
-  console.log(uri);
+ 
 
  
 try {
