@@ -13,6 +13,7 @@ router.post('/register',body('email').isEmail(),
   // password must be at least 5 chars long
   body('password').isLength({ min: 8 }).withMessage("Password should be at least 8 characters"),
             Auth.register);
+router.get('/logout', Auth.logout);
 
 
 

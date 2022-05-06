@@ -9,7 +9,10 @@ const UserSchema = new mongoose.Schema({
   first_name: { type: String, required: [true, "First name is required"] },
   last_name: { type: String, required: [true, "Last name is required"] },
   profile:{type:String},
-  company:{type:String}
+  company:{type:String},
+  customer_id:String,
+  payment_set: Boolean
+  
   
   
 
