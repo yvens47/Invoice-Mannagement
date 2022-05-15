@@ -16,7 +16,7 @@ var dwolla = new Client({
   environment: "sandbox", // defaults to 'production'
 });
 
-console.log(dwolla);
+//console.log(dwolla);
 
 const login = Model => async(req, res) => {
 
@@ -43,7 +43,7 @@ const login = Model => async(req, res) => {
       {
         expires: expiryDate,
         httpOnly: true,
-        // secure: true,
+         secure: true,
       });
     user.password = null;    
     res.json({ success:true, token, message:"Yo have logged in successfully", user});
@@ -69,7 +69,7 @@ const register = Model => async  (req, res, next) => {
      //
       // dwolla
      
-      const {email, first_name, last_name} = req.body;
+  /*    const {email, first_name, last_name} = req.body;
   const newCustomer =  await dwolla
   .post("customers", {
     firstName: first_name,
@@ -78,17 +78,14 @@ const register = Model => async  (req, res, next) => {
   })
     const idArr = newCustomer.headers.get('location').split('/');
     const CustomerId = (idArr[4]);
-
+*/
 
     // create and save new user
     const user = new Model(req.body);
-    user.customer_id = CustomerId;
+   // user.customer_id = CustomerId;
     user.save(function(err) {
       if (err)
-        res.status(400).json({success:false, error: err.message });
-     
-
-      
+        res.status(400).json({success:false, error: err.message });       
       res.json({ success: true, message: "You have registered successfully" })
 
     });
@@ -121,11 +118,16 @@ const forgotPassword = Model => (req, res) => {
 
 //  check if user is authorized with provided token
 const isAuthorized = (req, res, next) => {
-const {my_token} = req.cookies
-jwt.verify(my_token,"secret",(error, verifiedToken)=>{
+
+
+let my_token = req.headers.authorization.split(' ')[1];
+
+jwt.verify(my_token,process.env.JWT||"secret",(error, verifiedToken)=>{
   if(error){    
-    next("You are not authorized. bad Token provided")
+    res.json(error.message);   
+   
   }
+ 
   next();
   
   

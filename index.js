@@ -1,6 +1,12 @@
 const express = require('express');
-
+const http = require('http')
+const socketIO = require('socket.io')
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server,{cors: {
+    // origin: '*',
+  origin: 'https://invoice-mannagement-front.jeanpierre34.repl.co/',
+  }});
 const morgan = require('morgan')
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -9,6 +15,7 @@ require('dotenv').config();
 const db = require('./utils/db');
 var Client = require("dwolla-v2").Client;
 const axios = require('axios');
+// socket
 
 
 const AuthRoute = require('./routes/auth');
@@ -17,10 +24,21 @@ const PORT = process.env.PORT || 5000;
 
 
 app.use(morgan('tiny'))
-app.use(cors())
+app.use(cors(
+  {
+    // origin: 'https://invoice-mannagement-front.jeanpierre34.repl.co/',
+    origin:"*",
+    credentials: true,
+}
+  
+))
 app.use(cookieParse());
 app.use(express.json());
-//app.use(bodyParser());
+app.use(bodyParser());
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 db();
 // routes
@@ -45,7 +63,7 @@ var dwolla = new Client({
   environment: "sandbox", // defaults to 'production'
 });
 
-console.log(dwolla);
+// console.log(dwolla);
 
 
 
@@ -61,13 +79,24 @@ app.post('/token', async (req, res, next) => {
   .then((res) => console.log(res));
 
 })
+io.on("connection", (socket) => {
+  console.log("new user connected..")
+  // ...
+  socket.emit("Welcome", "Hello from server IO")
+
+  socket.on("login", (arg) => {
+    console.log(arg); // world
+  });
+  socket.on('Invoice_Uploaded', (args)=>{
+    console.log("an Invoice has been uploaded").
+    socket.emit("uploaded", ['data']);
+  })
+});
+
+// io.
 
 
-
-
-
-
-app.listen(PORT, () => console.log("App has started..."))
+server.listen(PORT, () => console.log("App has started..."))
 
 
 
