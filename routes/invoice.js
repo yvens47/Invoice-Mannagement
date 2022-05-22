@@ -24,13 +24,17 @@ const upload = multer({ storage: storage })
 
 //router.post('/', Auth.isAuthorized,InvoiceController.create);
 
-
+// user must be  authorize to create and read invoice
 router.post('/',Auth.isAuthorized,upload.single('file'), InvoiceController.create);
 router.get("/:userId", InvoiceController.invoices)
+router.post('/delete', (req, res)=>{
 
-// router.get('/',()=>{
+  const { invoice_number, userId} = req.body;  
+  // 
+  res.json({message:"Delete Invoice not yet Implemented"})
   
-// });
+})
+router.put('/payment-request', InvoiceController.paymentRequest);
 
 
 
