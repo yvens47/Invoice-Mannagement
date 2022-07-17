@@ -6,17 +6,16 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 
-const update = Model => async (req, res)=>{
+const update = Model => async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const updateUser = Model.findOneAndUpdate({ _id: userId }, req.body, { new: true });
 
-  try{
-    const {userId} = req.body;
-    const updateUser = Model.findOneAndUpdate({_id:userId},req.body,{new:true});   
-    
-  }catch(error){
+  } catch (error) {
     console.log(error);
-    res.json({message:error.message});
-               
-    
+    res.json({ message: error.message });
+
+
   }
 }
 
@@ -24,8 +23,8 @@ const update = Model => async (req, res)=>{
 
 
 module.exports = {
-  update :update(User)
- 
+  update: update(User)
+
 
 
 

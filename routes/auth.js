@@ -16,6 +16,7 @@ router.post('/register', body('email').isEmail(),
 router.get('/logout', Auth.logout);
 
 router.get('/forgot-password/:email', Auth.forgotPassword)
+
 router.post('/change-password', Auth.isAuthorized, Auth.changePassword)
 
 

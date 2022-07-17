@@ -2,11 +2,14 @@ const express = require('express');
 const http = require('http')
 const socketIO = require('socket.io')
 const app = express();
+const compression = require('compression')
 const server = http.createServer(app);
-const io = socketIO(server,{cors: {
+const io = socketIO(server, {
+  cors: {
     // origin: '*',
-  origin: 'https://invoice-mannagement-front.jeanpierre34.repl.co/',
-  }});
+    origin: 'https://invoice-mannagement-front.jeanpierre34.repl.co/',
+  }
+});
 const morgan = require('morgan')
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -20,30 +23,33 @@ const axios = require('axios');
 
 const AuthRoute = require('./routes/auth');
 const InvoiceionRoute = require('./routes/invoice');
+const CompanyRoute = require('./routes/company')
 const PORT = process.env.PORT || 5000;
 
 
+app.use(compression())
 app.use(morgan('tiny'))
 app.use(cors(
   {
     // origin: 'https://invoice-mannagement-front.jeanpierre34.repl.co/',
-    origin:"*",
+    origin: "*",
     credentials: true,
-}
-  
+  }
+
 ))
 app.use(cookieParse());
 app.use(express.json());
 app.use(bodyParser());
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({
-    extended: false
+  extended: false
 }));
 
 db();
 // routes
 app.use("/auth", AuthRoute);
 app.use("/invoices", InvoiceionRoute);
+app.use("/companies", CompanyRoute)
 
 
 app.get('/', (req, res) => {
@@ -70,13 +76,13 @@ var dwolla = new Client({
 
 app.post('/token', async (req, res, next) => {
   // GET api.dwolla.com/customers?limit=10&offset=20
-   dwolla
-  .post("customers", {
-    firstName: "Janex",
-    lastName: "Doge",
-    email: "januec@doe.com",
-  })
-  .then((res) => console.log(res));
+  dwolla
+    .post("customers", {
+      firstName: "Janex",
+      lastName: "Doge",
+      email: "januec@doe.com",
+    })
+    .then((res) => console.log(res));
 
 })
 io.on("connection", (socket) => {
@@ -87,9 +93,10 @@ io.on("connection", (socket) => {
   socket.on("login", (arg) => {
     console.log(arg); // world
   });
-  socket.on('Invoice_Uploaded', (args)=>{
+  socket.on('Invoice_Uploaded', (args) => {
     console.log("an Invoice has been uploaded").
-    socket.emit("uploaded", ['data']);
+      socket.emit("uploaded", ['data']);
+
   })
 });
 
