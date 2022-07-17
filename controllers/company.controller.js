@@ -34,7 +34,12 @@ const getCompanyDetail = Model => async (req, res) => {
 
 
 }
+const add = Model => async (req, res) => {
+
+    res.json({ message: "added" })
+}
 module.exports = {
-    getCompanyDetail: getCompanyDetail(companyModel)
+    getCompanyDetail: getCompanyDetail(companyModel),
+    add: add(companyModel)
 }
 

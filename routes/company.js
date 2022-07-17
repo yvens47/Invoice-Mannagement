@@ -7,6 +7,7 @@ const { body, validationResult } = require('express-validator');
 
 
 router.get('/:userId', company.getCompanyDetail);
+router.post("/add", company.add);
 
 
 module.exports = router;
