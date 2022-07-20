@@ -32,15 +32,7 @@ router.get('/', (req, res) => {
 router.post('/', Auth.isAuthorized, upload.single('file'), InvoiceController.create);
 
 router.get("/:userId", InvoiceController.invoices)
-router.delete('/delete', (req, res) => {
-
-  console.log(req)
-  const { invoice_number, userId } = req.body;
-  console.log("delete")
-  // 
-  res.json({ message: "Delete Invoice not yet Implemented" })
-
-})
+router.delete('/delete', InvoiceController.deleteInvoice)
 router.put('/payment-request', InvoiceController.paymentRequest);
 
 

@@ -123,14 +123,33 @@ const paymentRequest = Model => async (req, res) => {
 
 }
 
+const deleteInvoice = Model => async (req, res) => {
+  try {
 
+    
+    const invoice = Model.findOne({ _id: invoice_number });
+    console.log(invoice)
+    // 
+    res.json({ message: "Delete Invoice not yet Implemented" })
+
+
+  }
+  catch (error) {
+    console.log(error)
+  }
+
+
+
+
+}
 
 
 module.exports = {
   create: create(Invoice),
   invoices: getInvoices(Invoice),
   all: invoices(Invoice),
-  paymentRequest: paymentRequest(Invoice)
+  paymentRequest: paymentRequest(Invoice),
+  deleteInvoice: deleteInvoice(Invoice)
 
 
 
