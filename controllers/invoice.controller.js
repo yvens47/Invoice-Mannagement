@@ -71,9 +71,11 @@ const getInvoices = Model => async (req, res) => {
 
 
   // const {userId}= req.params;
+  console.log(req.params)
   const { userId } = req.params
   const invoices = await Model.find({
-    user: new ObjectId(userId)
+
+    company_id: new ObjectId(userId)
   });
   res.json(invoices);
 

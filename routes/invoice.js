@@ -9,10 +9,10 @@ const { route } = require('./company');
 //const upload = multer({ dest: './public/uploads/' })
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, './public/uploads/')
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
     cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
   }
@@ -32,9 +32,11 @@ router.get('/', (req, res) => {
 router.post('/', Auth.isAuthorized, upload.single('file'), InvoiceController.create);
 
 router.get("/:userId", InvoiceController.invoices)
-router.post('/delete', (req, res) => {
+router.delete('/delete', (req, res) => {
 
+  console.log(req)
   const { invoice_number, userId } = req.body;
+  console.log("delete")
   // 
   res.json({ message: "Delete Invoice not yet Implemented" })
 
